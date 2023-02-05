@@ -1,23 +1,18 @@
 package com.example.cardbankcompose
 
 import android.os.Bundle
-import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.LifecycleOwner
-import com.example.cardbank.domain.data.models.base.BankBIN
 import com.example.cardbankcompose.domain.viewmodel.MainViewModels
 import com.example.cardbankcompose.ui.theme.CardBankComposeTheme
 import org.koin.androidx.compose.koinViewModel
-import java.nio.file.WatchEvent.Modifier
 
 
 class MainActivity : ComponentActivity() {
@@ -37,14 +32,15 @@ fun Greeting(viewModel: MainViewModels = koinViewModel()) {
 
     val text = "45717360"
     viewModel.onShowCard(text)
+    val newBankServer = viewModel.card.observeAsState().value
 
-    viewModel.card.observeForever {
-       it.country?.name.toString()
-        println("@@@@ ${it.bank?.name}, ${it.bank?.city}")
+    Row() {
+        Text(text = newBankServer?.bank?.name.toString(),
+            modifier = androidx.compose.ui.Modifier
+                .padding(vertical = 50.dp)
+        )
+        Text(text = newBankServer?.bank?.city.toString())
     }
-
-    Text(text = "11111", modifier = androidx.compose.ui.Modifier
-        .padding(vertical = 50.dp))
 
 //    binding.inputLayoutTextWindow.setEndIconOnClickListener {
 //        val numberBin = binding.binEditText.text.toString()
