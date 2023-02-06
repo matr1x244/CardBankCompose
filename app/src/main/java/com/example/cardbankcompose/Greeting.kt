@@ -48,7 +48,7 @@ fun Greeting(
                     modifier = Modifier.size(50.dp),
                     tint = Color.Green,
                 )
-                IconButton(onClick = { viewModel.onShowCard(textValue) }) {
+                IconButton(onClick = { if (textValue.isNotEmpty()) viewModel.onShowCard(textValue)}) {
                 }
             },
             colors = TextFieldDefaults.outlinedTextFieldColors(
@@ -77,40 +77,43 @@ fun Greeting(
                 .padding(end = 5.dp)
         )
 
-        Column() {
-            Text(
-                text = newBankServer?.bank?.name.toString(),
-                modifier = Modifier
-                    .padding(vertical = 5.dp)
-            )
+        if (viewModel.card.observeAsState().value != null) {
+            Column() {
+                Text(
+                    text = newBankServer?.bank?.name.toString(),
+                    modifier = Modifier
+                        .padding(vertical = 5.dp)
+                )
+                Text(
+                    text = newBankServer?.scheme.toString(),
+                    modifier = Modifier
+                        .padding(vertical = 5.dp)
+                )
+                Text(
+                    text = newBankServer?.type.toString(),
+                    modifier = Modifier
+                        .padding(vertical = 5.dp)
+                )
+                Text(
+                    text = newBankServer?.brand.toString(),
+                    modifier = Modifier
+                        .padding(vertical = 5.dp)
+                )
+                Text(
+                    text = newBankServer?.country?.name.toString(),
+                    modifier = Modifier
+                        .padding(vertical = 5.dp)
+                )
+                Text(
+                    text = newBankServer?.bank?.url.toString(),
+                    modifier = Modifier
+                        .padding(vertical = 5.dp)
+                )
 
-            Text(
-                text = newBankServer?.scheme.toString(),
-                modifier = Modifier
-                    .padding(vertical = 5.dp)
-            )
-            Text(
-                text = newBankServer?.type.toString(),
-                modifier = Modifier
-                    .padding(vertical = 5.dp)
-            )
-            Text(
-                text = newBankServer?.brand.toString(),
-                modifier = Modifier
-                    .padding(vertical = 5.dp)
-            )
-            Text(
-                text = newBankServer?.country?.name.toString(),
-                modifier = Modifier
-                    .padding(vertical = 5.dp)
-            )
-            Text(
-                text = newBankServer?.bank?.url.toString(),
-                modifier = Modifier
-                    .padding(vertical = 5.dp)
-            )
+            }
         }
     }
+
 
 //    binding.inputLayoutTextWindow.setEndIconOnClickListener {
 //        val numberBin = binding.binEditText.text.toString()
@@ -119,6 +122,5 @@ fun Greeting(
 //            viewModel.onShowCard(numberBin)
 //        }
 //    }
-
 
 }
