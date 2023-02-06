@@ -7,12 +7,11 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.style.TextAlign
@@ -22,10 +21,15 @@ import com.example.cardbankcompose.domain.viewmodel.MainViewModels
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
-fun Greeting(textField: State<String>, onValueChangeText: (String) -> Unit, viewModel: MainViewModels = koinViewModel()) {
+fun Greeting(
+    textField: State<String>,
+    onValueChangeText: (String) -> Unit,
+    viewModel: MainViewModels = koinViewModel()
+) {
 
     val textValue = textField.value
-    val newBankServer = viewModel.card.observeAsState().value // подписка LiveData ViewModel (.observeAsState())
+    val newBankServer =
+        viewModel.card.observeAsState().value // подписка LiveData ViewModel (.observeAsState())
 
     Column(
         modifier = Modifier
@@ -36,12 +40,11 @@ fun Greeting(textField: State<String>, onValueChangeText: (String) -> Unit, view
             value = textValue,
             onValueChange = onValueChangeText,
             textStyle = TextStyle(fontSize = 20.sp),
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
-            maxLines = 7,
+            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             trailingIcon = {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_launcher_foreground),
-                    contentDescription = "Поиск",
+                    contentDescription = stringResource(R.string.search_desc_icon),
                     modifier = Modifier.size(50.dp),
                     tint = Color.Green,
                 )
@@ -55,10 +58,10 @@ fun Greeting(textField: State<String>, onValueChangeText: (String) -> Unit, view
                 cursorColor = Color.Blue,
             ),
             label = {
-                Text(text = "Поиск BIN")
+                Text(text = stringResource(R.string.search_bin))
             },
             placeholder = {
-                Text(text = "на пример: 431723")
+                Text(text = stringResource(R.string.primer_431723))
             },
             shape = RoundedCornerShape(5.dp),
             modifier = Modifier.fillMaxWidth()
@@ -73,14 +76,39 @@ fun Greeting(textField: State<String>, onValueChangeText: (String) -> Unit, view
                 .align(Alignment.End)
                 .padding(end = 5.dp)
         )
-        Column() {
-            Text(text = newBankServer?.bank?.name.toString(),
-                modifier = Modifier
-                    .padding(vertical = 5.dp))
 
-            Text(text = newBankServer?.bank?.city.toString(),
+        Column() {
+            Text(
+                text = newBankServer?.bank?.name.toString(),
                 modifier = Modifier
-                    .padding(vertical = 5.dp))
+                    .padding(vertical = 5.dp)
+            )
+
+            Text(
+                text = newBankServer?.scheme.toString(),
+                modifier = Modifier
+                    .padding(vertical = 5.dp)
+            )
+            Text(
+                text = newBankServer?.type.toString(),
+                modifier = Modifier
+                    .padding(vertical = 5.dp)
+            )
+            Text(
+                text = newBankServer?.brand.toString(),
+                modifier = Modifier
+                    .padding(vertical = 5.dp)
+            )
+            Text(
+                text = newBankServer?.country?.name.toString(),
+                modifier = Modifier
+                    .padding(vertical = 5.dp)
+            )
+            Text(
+                text = newBankServer?.bank?.url.toString(),
+                modifier = Modifier
+                    .padding(vertical = 5.dp)
+            )
         }
     }
 
@@ -92,16 +120,5 @@ fun Greeting(textField: State<String>, onValueChangeText: (String) -> Unit, view
 //        }
 //    }
 
-//    viewModel.card.observe(viewLifecycleOwner) {
-//        binding.bankTv.text = it.bank?.name
-//        binding.schemeTv.text = it.scheme
-//        binding.typeTv.text = it.type
-//        binding.brandTv.text = it.brand
-//        binding.countryTv.text = it.country?.name
-//        binding.urlTv.text = it.bank?.url
-//        binding.phoneTv.text = it.bank?.phone
-//        binding.latitudeTv.text = it.country?.latitude.toString()
-//        binding.longitudeTv.text = it.country?.longitude.toString()
-//    }
 
 }
