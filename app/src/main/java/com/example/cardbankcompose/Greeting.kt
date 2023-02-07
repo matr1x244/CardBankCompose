@@ -43,10 +43,10 @@ fun Greeting(
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
             trailingIcon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.ic_launcher_foreground),
+                    painter = painterResource(id = android.R.drawable.ic_menu_search),
                     contentDescription = stringResource(R.string.search_desc_icon),
-                    modifier = Modifier.size(50.dp),
-                    tint = Color.Green,
+                    modifier = Modifier.size(30.dp),
+                    tint = Color.Gray,
                 )
                 IconButton(onClick = { if (textValue.isNotEmpty()) viewModel.onShowCard(textValue)}) {
                 }
@@ -113,14 +113,5 @@ fun Greeting(
             }
         }
     }
-
-
-//    binding.inputLayoutTextWindow.setEndIconOnClickListener {
-//        val numberBin = binding.binEditText.text.toString()
-//        if (numberBin.isEmpty()) {
-//        } else {
-//            viewModel.onShowCard(numberBin)
-//        }
-//    }
 
 }
